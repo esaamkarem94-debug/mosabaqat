@@ -130,10 +130,10 @@ app.use('/preview-files', (req, res, next) => {
   express.static(settings.storagePath)(req, res, next);
 });
 
-// API: Get site info and current conditions
+// API: Get site info, current conditions, and live public tunnel link
 app.get('/api/settings', (req, res) => {
   const settings = getSettings();
-  res.json({ success: true, settings });
+  res.json({ success: true, settings: { ...settings, publicUrl: currentPublicUrl } });
 });
 
 // API: Update settings (admin)
@@ -288,12 +288,54 @@ app.get('/api/download-zip', (req, res) => {
 // Start the server
 ensureStorageDirectory();
 
+let currentPublicUrl = 'https://scientists-switch-dec-applied.trycloudflare.com';
+
+function startCloudflareTunnel(port) {
+  const cloudflaredBin = path.join(__dirname, 'cloudflared.exe');
+  if (!fs.existsSync(cloudflaredBin)) {
+    console.log('[Tunnel] cloudflared.exe not found, skipping tunnel auto-start');
+    return;
+  }
+
+  try {
+    const tunnel = exec(`"${cloudflaredBin}" tunnel --url http://localhost:${port}`);
+
+    tunnel.stderr.on('data', (data) => {
+      const text = data.toString();
+      const match = text.match(/https:\/\/[a-zA-Z0-9-]+\.trycloudflare\.com/);
+      if (match) {
+        currentPublicUrl = match[0];
+        console.log(`\n=======================================================`);
+        console.log(`🌐 الرابط العام لموقع "مسابقات" على الإنترنت جاهز الآن:`);
+        console.log(`👉 ${currentPublicUrl}`);
+        console.log(`📂 أي ملف يرفعه الناس من الرابط سينزل مباشرة في:`);
+        console.log(`   ${getSettings().storagePath}`);
+        console.log(`=======================================================\n`);
+      }
+    });
+
+    tunnel.on('close', (code) => {
+      console.log(`[Tunnel] Process exited with code ${code}`);
+    });
+  } catch (err) {
+    console.error('[Tunnel Error]:', err.message);
+  }
+}
+
 app.listen(PORT, '0.0.0.0', () => {
   const settings = getSettings();
   console.log(`=======================================================`);
   console.log(`🎉 موقع "مسابقات" يعمل الآن بنجاح!`);
   console.log(`🔗 الرابط المحلي: http://localhost:${PORT}`);
+  if (currentPublicUrl) {
+    console.log(`🌐 الرابط العام الحالي: ${currentPublicUrl}`);
+  }
   console.log(`📂 مجلد حفظ الملفات على جهازك:`);
   console.log(`   ${settings.storagePath}`);
   console.log(`=======================================================`);
+
+  // Start cloudflare tunnel if not already launched externally
+  startCloudflareTunnel(PORT);
 });
+
+

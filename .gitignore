@@ -4,3 +4,4 @@ google-drive-key.json
 uploads/
 submissions.json
 *.log
+cloudflared.exe

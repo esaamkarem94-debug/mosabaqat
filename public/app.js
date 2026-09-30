@@ -35,6 +35,11 @@ const driveModal = document.getElementById('drive-modal');
 const toast = document.getElementById('toast');
 const toastMessage = document.getElementById('toast-message');
 
+// Public Link Elements
+const publicLinkInput = document.getElementById('public-link-input');
+const copyPublicLinkBtn = document.getElementById('copy-public-link-btn');
+const openPublicLinkAnchor = document.getElementById('open-public-link-anchor');
+
 // Initialize app
 document.addEventListener('DOMContentLoaded', () => {
   fetchSettings();
@@ -127,6 +132,19 @@ function setupEventListeners() {
   driveInfoBtn.addEventListener('click', () => {
     driveModal.classList.remove('hidden');
   });
+
+  // Copy public link button
+  copyPublicLinkBtn?.addEventListener('click', () => {
+    if (publicLinkInput && publicLinkInput.value && !publicLinkInput.value.includes('جاري')) {
+      navigator.clipboard.writeText(publicLinkInput.value).then(() => {
+        showToast('تم نسخ الرابط العام بنجاح! شاركه مع المتسابقين الآن 🎉', 'success');
+      }).catch(() => {
+        publicLinkInput.select();
+        document.execCommand('copy');
+        showToast('تم نسخ الرابط العام بنجاح!', 'success');
+      });
+    }
+  });
 }
 
 // Fetch Settings from API
@@ -154,6 +172,15 @@ function renderSettings(settings) {
   }
   if (settings.storagePath) {
     localStoragePathCode.textContent = settings.storagePath;
+  }
+
+  // Set public link URL
+  if (publicLinkInput) {
+    const link = settings.publicUrl || window.location.origin;
+    publicLinkInput.value = link;
+    if (openPublicLinkAnchor) {
+      openPublicLinkAnchor.href = link;
+    }
   }
 
   // Render Rules
