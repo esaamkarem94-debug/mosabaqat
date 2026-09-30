@@ -381,6 +381,7 @@ body {
 
 /* Drag & Drop Zone */
 .drop-zone {
+  display: block;
   border: 2px dashed #a5b4fc;
   background: #f5f7ff;
   border-radius: var(--radius-lg);
@@ -405,6 +406,7 @@ body {
   height: 100%;
   opacity: 0;
   cursor: pointer;
+  z-index: 5;
 }
 
 .drop-icon {

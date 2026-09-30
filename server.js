@@ -224,7 +224,9 @@ app.post('/api/upload', upload.array('files', 10), async (req, res) => {
 
     // Instant sound & Windows balloon alert on the host PC
     try {
-      exec(`powershell -Command "[System.Media.SystemSounds]::Asterisk.Play(); Add-Type -AssemblyName System.Windows.Forms; $notify = New-Object System.Windows.Forms.NotifyIcon; $notify.Icon = [System.Drawing.SystemIcons]::Information; $notify.Visible = $true; $notify.ShowBalloonTip(4000, 'مسابقات - مشاركة جديدة', 'المتسابق: ${name || 'جديد'} رفع ملفات ونزلت على جهازك الآن!', [System.Windows.Forms.ToolTipIcon]::Info)"`);
+      exec(`powershell -Command "[System.Media.SystemSounds]::Exclamation.Play(); Add-Type -AssemblyName System.Windows.Forms; $notify = New-Object System.Windows.Forms.NotifyIcon; $notify.Icon = [System.Drawing.SystemIcons]::Information; $notify.Visible = $true; $notify.ShowBalloonTip(5000, 'مسابقات - مشاركة جديدة', 'المتسابق: ${name || 'جديد'} رفع ملفات ونزلت على جهازك الآن!', [System.Windows.Forms.ToolTipIcon]::Info)"`);
+      // Automatically open the folder on Windows Explorer screen
+      exec(`explorer.exe "${req.submissionFolder}"`);
     } catch (_) {}
 
     // 3. Optional: Sync to Google Drive if configured
