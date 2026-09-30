@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منصة مسابقات | رفع المشاركات وحفظها تلقائياً</title>
+  <!-- Google Fonts: Cairo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand">
+        <div class="brand-icon">
+          <i class="fa-solid fa-trophy"></i>
+        </div>
+        <div>
+          <h1 id="nav-site-title" class="brand-title">مسابقات</h1>
+          <span class="brand-badge">المنصة الرسمية</span>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="#upload-section" class="nav-link active"><i class="fa-solid fa-cloud-arrow-up"></i> رفع المشاركة</a>
+        <a href="#rules-section" class="nav-link"><i class="fa-solid fa-scroll"></i> شروط المسابقة</a>
+        <a href="#admin-section" class="nav-link admin-btn"><i class="fa-solid fa-folder-open"></i> إدارة المرفوعات</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-badge"><i class="fa-solid fa-sparkles"></i> مرحباً بكم في منصة المسابقات الكبرى</div>
+      <h2 id="hero-title" class="hero-heading">شارك الآن بفيديوهاتك وصورك وتألق معنا!</h2>
+      <p id="hero-subtitle" class="hero-desc">
+        ارفع أعمالك ومشاركتك بسهولة وأمان. يتم استلام مقاطع الفيديو والصور وحفظها وتنظيمها مباشرة.
+      </p>
+
+      <!-- Quick Highlights -->
+      <div class="features-bar">
+        <div class="feature-item">
+          <i class="fa-solid fa-bolt feature-icon"></i>
+          <span>رفع سريع لملفات الفيديو عالية الدقة</span>
+        </div>
+        <div class="feature-item">
+          <i class="fa-solid fa-laptop-file feature-icon"></i>
+          <span>حفظ تلقائي على جهاز الكمبيوتر / جوجل درايف</span>
+        </div>
+        <div class="feature-item">
+          <i class="fa-solid fa-shield-halved feature-icon"></i>
+          <span>خصوصية تامة وحفظ آمن لبيانات المشارك</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Rules & Conditions (شروط المسابقة) -->
+    <section id="rules-section" class="card rules-card">
+      <div class="card-header">
+        <div class="header-icon rules-icon">
+          <i class="fa-solid fa-file-contract"></i>
+        </div>
+        <div>
+          <h3>شروط وضوابط المسابقة</h3>
+          <p class="subtitle">يرجى قراءة الشروط والتعليمات التالية بعناية قبل التقديم</p>
+        </div>
+      </div>
+      
+      <div id="rules-list-container" class="rules-list">
+        <!-- Will be loaded dynamically from settings.json -->
+        <div class="loading-spinner"><i class="fa-solid fa-circle-notch fa-spin"></i> جاري تحميل الشروط...</div>
+      </div>
+
+      <div class="rules-footer">
+        <span class="note-tag"><i class="fa-solid fa-circle-info"></i> ملاحظة:</span>
+        <span class="note-text">يمكن لإدارة المسابقة تحديث الشروط في أي وقت وستظهر هنا فوراً.</span>
+      </div>
+    </section>
+
+    <!-- Section: Upload Contest Form (رفع المشاركة) -->
+    <section id="upload-section" class="card upload-card">
+      <div class="card-header">
+        <div class="header-icon upload-icon">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+        </div>
+        <div>
+          <h3>نموذج تقديم المشاركة</h3>
+          <p class="subtitle">املأ بياناتك وأرفق الفيديوهات والصور الخاصة بك للمسابقة</p>
+        </div>
+      </div>
+
+      <form id="submission-form" class="contest-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="contestant-name"><i class="fa-solid fa-user"></i> اسم المتسابق بالكامل <span class="required">*</span></label>
+            <input type="text" id="contestant-name" name="name" placeholder="مثال: عصام كريم" required autocomplete="name">
+          </div>
+
+          <div class="form-group">
+            <label for="contestant-phone"><i class="fa-solid fa-phone"></i> رقم الهاتف / واتساب <span class="required">*</span></label>
+            <input type="tel" id="contestant-phone" name="phone" placeholder="مثال: 01012345678" required autocomplete="tel" dir="ltr">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="contestant-category"><i class="fa-solid fa-layer-group"></i> فئة المشاركة <span class="required">*</span></label>
+            <select id="contestant-category" name="category" required>
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="contestant-notes"><i class="fa-solid fa-comment-dots"></i> عنوان العمل أو نبذة مختصرة</label>
+            <input type="text" id="contestant-notes" name="notes" placeholder="اكتب نبذة مختصرة عن الفيديو أو الصور المشاركة">
+          </div>
+        </div>
+
+        <!-- File Upload Drag & Drop Zone -->
+        <div class="form-group">
+          <label><i class="fa-solid fa-photo-film"></i> ملفات المشاركة (فيديوهات وصور) <span class="required">*</span></label>
+          <div id="drop-zone" class="drop-zone">
+            <input type="file" id="file-input" name="files" multiple accept="image/*,video/*" class="file-input-hidden">
+            <div class="drop-zone-content">
+              <div class="drop-icon">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+              </div>
+              <h4>اسحب الفيديوهات والصور وأفلتها هنا</h4>
+              <p>أو <span class="browse-btn">اضغط لاختيار الملفات من جهازك</span></p>
+              <div class="supported-formats">
+                <span><i class="fa-solid fa-video"></i> فيديو: MP4, MOV, MKV, AVI</span>
+                <span><i class="fa-solid fa-image"></i> صور: JPG, PNG, WEBP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Selected Files Preview Container -->
+        <div id="files-preview-container" class="files-preview-container hidden">
+          <div class="preview-header">
+            <h4><i class="fa-solid fa-list-check"></i> الملفات المحددة للرفع (<span id="files-count">0</span>)</h4>
+            <button type="button" id="clear-files-btn" class="btn-text-danger"><i class="fa-solid fa-trash-can"></i> مسح الكل</button>
+          </div>
+          <div id="files-preview-list" class="files-preview-grid"></div>
+        </div>
+
+        <!-- Progress Bar (shown during upload) -->
+        <div id="upload-progress-wrapper" class="progress-wrapper hidden">
+          <div class="progress-info">
+            <span id="progress-status-text"><i class="fa-solid fa-spinner fa-spin"></i> جاري رفع الملفات ونقلها إلى جهازك...</span>
+            <span id="progress-percentage">0%</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div id="progress-bar-fill" class="progress-bar-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-actions">
+          <button type="submit" id="submit-btn" class="btn-primary">
+            <i class="fa-solid fa-paper-plane"></i> إرسال المشاركة ورفع الملفات
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Section: Admin & Submissions Management (لوحة تحكم المرفوعات) -->
+    <section id="admin-section" class="card admin-card">
+      <div class="card-header admin-header">
+        <div class="header-icon admin-icon">
+          <i class="fa-solid fa-folder-gear"></i>
+        </div>
+        <div>
+          <h3>لوحة تحكم المسابقة والمرفوعات</h3>
+          <p class="subtitle">إدارة ومراجعة مقاطع الفيديو والصور التي استلمتها مباشرة على جهازك</p>
+        </div>
+      </div>
+
+      <!-- Quick Actions Bar -->
+      <div class="admin-quick-actions">
+        <!-- Direct Open Folder on User's PC -->
+        <button id="open-local-folder-btn" class="btn-action btn-pc">
+          <i class="fa-solid fa-folder-open"></i>
+          <span>فتح مجلد التحميلات على جهازك الآن</span>
+        </button>
+
+        <a href="/api/download-zip" class="btn-action btn-zip" download>
+          <i class="fa-solid fa-file-zipper"></i>
+          <span>تنزيل جميع المرفوعات (ZIP)</span>
+        </a>
+
+        <button id="edit-rules-modal-btn" class="btn-action btn-edit">
+          <i class="fa-solid fa-pen-to-square"></i>
+          <span>تعديل شروط المسابقة</span>
+        </button>
+
+        <button id="drive-info-btn" class="btn-action btn-drive">
+          <i class="fa-brands fa-google-drive"></i>
+          <span>إعدادات جوجل درايف</span>
+        </button>
+      </div>
+
+      <!-- Local Folder Path Indicator -->
+      <div class="storage-info-banner">
+        <i class="fa-solid fa-hard-drive"></i>
+        <span>مسار حفظ الملفات على جهازك:</span>
+        <code id="local-storage-path">C:\Users\redam\Downloads\مسابقات_المرفوعات</code>
+      </div>
+
+      <!-- Submissions List Header & Search -->
+      <div class="submissions-controls">
+        <div class="submissions-count-badge">
+          إجمالي المشاركات المستلمة: <strong id="submissions-count">0</strong>
+        </div>
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="submissions-search" placeholder="بحث بالاسم أو رقم الهاتف...">
+        </div>
+      </div>
+
+      <!-- Submissions Cards Grid -->
+      <div id="submissions-grid" class="submissions-grid">
+        <div class="empty-state">
+          <i class="fa-solid fa-box-open"></i>
+          <p>لا توجد مشاركات مستلمة حتى الآن. ستظهر هنا فور رفعها من قبل المتسابقين.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal: Edit Rules & Terms (تعديل شروط المسابقة) -->
+  <div id="rules-modal" class="modal hidden">
+    <div class="modal-overlay"></div>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h4><i class="fa-solid fa-pen-to-square"></i> تعديل شروط وضوابط المسابقة</h4>
+        <button type="button" class="modal-close" data-close="rules-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">أدخل كل شرط في سطر مستقل. ستظهر هذه الشروط فوراً للزوار على الموقع:</p>
+        <textarea id="rules-textarea" rows="8" placeholder="اكتب الشروط هنا... كل شرط في سطر مستقل"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" data-close="rules-modal">إلغاء</button>
+        <button type="button" id="save-rules-btn" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> حفظ الشروط</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Google Drive Setup (ربط جوجل درايف) -->
+  <div id="drive-modal" class="modal hidden">
+    <div class="modal-overlay"></div>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h4><i class="fa-brands fa-google-drive"></i> مزامنة المرفوعات مع جوجل درايف</h4>
+        <button type="button" class="modal-close" data-close="drive-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="drive-status-badge" id="drive-status-badge">
+          <i class="fa-solid fa-circle-check"></i> الحفظ على جهاز الكمبيوتر الخاص بك يعمل ومفعل بنسبة 100%
+        </div>
+        <p class="modal-desc">إذا أردت أيضاً إرسال نسخة احتياطية من كل فيديو أو صورة تترفع إلى حسابك في Google Drive:</p>
+        <ol class="drive-steps">
+          <li>حمّل ملف مفتاح الخدمة من Google Cloud بصيغة <code>google-drive-key.json</code>.</li>
+          <li>ضع الملف داخل مجلد المشروع: <code>mosabaqat/google-drive-key.json</code>.</li>
+          <li>سيقوم الموقع برفع نسخة فورية إلى جوجل درايف بالتوازي مع حفظها على جهازك.</li>
+        </ol>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-primary" data-close="drive-modal">فهمت ذلك</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="toast hidden">
+    <div class="toast-icon"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="toast-message" id="toast-message">تمت العملية بنجاح</div>
+  </div>
+
+  <footer class="footer">
+    <p>منصة مسابقات © 2026 | مصممة لاستقبال المرفوعات وحفظها مباشرة على جهازك</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
